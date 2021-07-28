@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M07_01 Nivel 2</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <h1 class="bg-white text-dark text-center py-3">M07_01 Nivel 2</h1>
+    <h2 class="bg-secondary text-light text-center mb-3 py-2">Calculadora</h2>
+
+    <div class="container border p-3">
+
+        <form>
+            <div class="row justify-content-center">
+                <div class="col-xs-12 col-md-4">
+                    <label for="fname">Operación a realizar:</label>
+                    <select id="opera" class="form-control form-control-sm" name="transporte" autofocus>
+                        <option disabled selected>Seleccion una opción</option>
+                        <option>Sumar</option>
+                        <option>Restar</option>
+                        <option>Multiplicar</option>
+                        <option>Dividir</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-md-4 ">
+                    <label for="fname">Ingresar primer número:</label>
+                    <input type="number" class="form-control form-control-sm" id="num-1" name="num-1">
+                </div>
+
+                <div class="col-xs-12 col-md-4 ">
+                    <label for="lname">Ingresar segundo numero:</label>
+                    <input type="number" class="form-control form-control-sm" id="num-2" name="num-2">
+                </div>
+            </div>
+            <div class="row justify-content-center my-4">
+                <div class="col-xs-12 col-md-4 d-grid gap-2 d-md-block">
+                    <button class="btn btn-primary btn-md " id="operar" type="button">Realizar
+                        operación</button>
+                </div>
+            </div>
+            <div id="view"></div>
+        </form>
+    </div>
+
+
+    <script>
+        window.addEventListener("load", function () {
+            document.getElementById("operar").onclick = procesar;
+            // window.onkeydown = teclado;
+        });
+        // function teclado(e) {
+        // codigo_tecla indica el código de tecla de la tecla pulsada por el usuario almacenada automáticamente en e
+        // let codigo_tecla = e.keyCode;
+        // ENTER (código 13)
+        // if (codigo_tecla == 13) {
+        // procesar();
+        // }
+        // }
+
+
+        function procesar() {
+            let contador;
+            var operation = document.getElementById("opera").value;
+            var num1 = document.getElementById("num-1").value;
+            var num2 = document.getElementById("num-2").value;
+
+            // Comprueba datos ingresados
+            contador = document.querySelectorAll(".contador").length;
+            if (operation != "" && num1 != "" && num2 != "") {
+                let resultat = calculadora(operation, num1, num2);
+                if (contador >= 10) {
+                    document.getElementById("view").innerHTML = "";
+                }
+                mostrar(resultat);
+            }
+        }
+
+        function calculadora(operador, valor1, valor2) {
+            let operacion = 0;
+            let resultado = "";
+
+            if (operador == "Sumar") {
+                operacion = Number(valor1) + Number(valor2);
+                resultado = `<div class="contador"><span class="mx-4">${valor1}</span><span class="mx-4"> + </span> <span>${valor2}</span><span> = </span><span> ${operacion}</span></div>`
+            }
+            else if (operador == "Restar") {
+                operacion = valor1 - valor2;
+                resultado = `<div class="contador">${valor1} - ${valor2} = ${operacion}</div>`
+            }
+            else if (operador == "Multiplicar") {
+                operacion = valor1 * valor2;
+                resultado = `<div class="contador">${valor1} * ${valor2} = ${operacion}</div>`
+            }
+            else if (operador == "Dividir") {
+                if (valor2 != 0) {
+                    operacion = valor1 / valor2;
+                    resultado = `<div class="contador">${valor1} / ${valor2} = ${operacion}</div>`
+                } else {
+                    if (valor1 == 0) {
+                        resultado = `<div class="contador">${valor1} / ${valor2} = Resultado indefinido</div>`
+                    } else {
+                        resultado = `<div class="contador">${valor1} / ${valor2} = No se puede dividir entre cero</div>`
+                    }
+                }
+            }
+            return resultado;
+        }
+
+        function mostrar(resultat) {
+            document.getElementById("view").innerHTML += resultat;
+            cleanValue();
+        }
+
+        function cleanValue() {
+            document.getElementById("opera").value = "";
+            document.getElementById("num-1").value = "";
+            document.getElementById("num-2").value = "";
+            document.getElementById("num-2").blur();
+            document.getElementById("opera").focus();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
